@@ -790,7 +790,15 @@ var INDS=[
 {n:'Metalmecánica',i:'Soluciones de movimiento y control para máquinas herramienta, corte, formado y transmisión de potencia.',s:[['gear','Servos y variadores para movimiento preciso'],['truck','Motores y reductores para transmisión'],['head','Controladores para máquinas'],['shield','Protección y seguridad de máquinas']],c:[1,5,0,4]},
 {n:'Petróleo y Gas',i:'Componentes robustos para tableros, control de procesos y sistemas de seguridad en instalaciones industriales exigentes.',s:[['box','Componentes eléctricos para tableros y centros de control'],['gear','PLCs para monitoreo y control de procesos'],['shield','Sensores y paros de emergencia'],['truck','Motores y reductores para movimiento de equipos']],c:[3,0,4,5]},
 {n:'Manufactura General',i:'Automatización para líneas de producción, ensamble y manejo de materiales de cualquier sector.',s:[['gear','Automatización de líneas de producción'],['drop','Variadores y servos para movimiento'],['head','HMI para operación y monitoreo'],['box','Componentes de automatización']]  ,c:[0,1,2,6]}];
-var INI=[].slice.call(document.querySelectorAll('#b-inds .ind img')).map(function(im){return im.src});
+var INI = [
+  'Soluciones%20por%20industria/alimento.png',
+  'Soluciones%20por%20industria/farmaceutica.png',
+  'Soluciones%20por%20industria/metalmecanica.png',
+  'Soluciones%20por%20industria/petroleo.png',
+  'Soluciones%20por%20industria/manufactura.png'
+].map(function(src) {
+  return new URL(src, document.baseURI).href;
+});
 function buildIndustry(n){
  var d=INDS[n],sug=[];d.c.forEach(function(c){CI.filter(function(x){return x.cat===c}).slice(0,2).forEach(function(x){sug.push(x)})});
  setHead('<a href="#/soluciones">Soluciones</a> / '+esc(d.n),d.n,'Soluciones y productos recomendados para esta industria.');
