@@ -773,37 +773,321 @@ document.addEventListener('click',function(e){if(!e.target.closest('.sbox')&&!e.
 $('#sbtn').onclick=function(){var h=document.querySelector('header');h.classList.toggle('so');if(h.classList.contains('so'))q.focus();else closeRes()};
 
 /* ---- catálogo ---- */
-var CD=['Controladores para automatizar máquinas y procesos industriales.','Control de velocidad y movimiento preciso para motores y ejes.','Pantallas de operador para monitorear y controlar tus procesos.','Contactores, protecciones y componentes para tableros eléctricos.','Detección y protección para máquinas y personas.','Motores y reductores para transmisión de potencia.','Módulos, fuentes, comunicación y accesorios para tu sistema de control.'];
-var BR=['Allen-Bradley','Siemens','Schneider Electric','Mitsubishi Electric','Delta'],V='Varias marcas';
-var CT=[].slice.call(document.querySelectorAll('#b-cats .cat')).map(function(el,i){return {n:el.querySelector('b').textContent,img:el.querySelector('img').src,d:CD[i]}});
-var CPD=[[0,'Allen-Bradley','ControlLogix'],[0,'Allen-Bradley','CompactLogix'],[0,'Allen-Bradley','Micro800'],[0,'Siemens','SIMATIC S7-1200'],[0,'Siemens','SIMATIC S7-1500'],[0,'Schneider Electric','Modicon M241'],[0,'Mitsubishi Electric','MELSEC iQ-F'],[0,'Delta','Serie DVP'],
-[1,'Allen-Bradley','PowerFlex 525'],[1,'Allen-Bradley','PowerFlex 755'],[1,'Allen-Bradley','Kinetix'],[1,'Siemens','SINAMICS V20'],[1,'Siemens','SINAMICS G120'],[1,'Schneider Electric','Altivar'],[1,'Mitsubishi Electric','MELSERVO'],[1,'Delta','Serie VFD'],[1,'Delta','ASDA-A2'],
-[2,'Allen-Bradley','PanelView Plus 7'],[2,'Allen-Bradley','PanelView 800'],[2,'Siemens','SIMATIC HMI Comfort Panels'],[2,'Schneider Electric','Magelis'],[2,'Mitsubishi Electric','GOT2000'],[2,'Delta','Serie DOP'],
-[3,'Schneider Electric','Contactores TeSys'],[3,'Siemens','Contactores SIRIUS'],[3,'Allen-Bradley','Contactores Serie 100-C'],[3,'Mitsubishi Electric','Contactores Serie MS-T'],[3,V,'Guardamotores'],[3,V,'Relés de control'],[3,V,'Interruptores automáticos'],
-[4,V,'Sensores inductivos'],[4,V,'Sensores fotoeléctricos'],[4,V,'Cortinas de luz de seguridad'],[4,'Allen-Bradley','Relés de seguridad Guardmaster'],[4,V,'Paros de emergencia'],[4,V,'Finales de carrera'],
-[5,V,'Motores trifásicos'],[5,V,'Motorreductores'],[5,V,'Reductores de velocidad'],[5,'Siemens','Motores SIMOTICS'],[5,V,'Servomotores'],
-[6,V,'Módulos de entradas y salidas'],[6,V,'Fuentes de alimentación'],[6,V,'Switches industriales Ethernet'],[6,V,'Gateways y comunicación industrial'],[6,V,'Relés temporizadores'],[6,V,'Borneras y accesorios']];
-var CI=CPD.map(function(r){var c=CT[r[0]],nm=r[1]===V?r[2]:r[1]+' '+r[2];var it={id:'k'+slug(nm),type:'Producto',name:nm,img:c.img,cat:r[0],brand:r[1],desc:c.d,tag:r[1]+' · '+c.n,kw:norm(nm+' '+r[1]+' '+c.n+' '+CK[r[0]])};items.push(it);return it});
-var FM=[0,1,2,1];items.filter(function(x){return x.el}).forEach(function(x,i){x.cat=FM[i];x.desc=CD[FM[i]];x.tag='Producto destacado'});
-items.forEach(function(x){if(/^c\d+$/.test(x.id))x.cidx=+x.id.slice(1)});
-var ii=0;items.forEach(function(x){if(x.type==='Industria')x.ind=ii++});
-window.__sheetx=function(it){var sl=$('#sl');if(it.cat!==undefined&&CT[it.cat]){sl.style.display='inline-block';sl.textContent='Ver más en '+CT[it.cat].n+' →'}else sl.style.display='none'};
-$('#sl').onclick=function(){var c=cur.cat;closeAll();openCategory(c)};
-function setHead(crumb,title,sub){$('#hc').innerHTML=crumb;$('#ht').textContent=title;$('#hp').textContent=sub;document.title=title+' | Grupo Faraday'}
-function onStage(id){return document.getElementById(id).parentNode===$('#stage')}
-function quoteTxt(txt){closeAll();if(onStage('b-contact')){fill(txt);$('#b-contact').scrollIntoView({behavior:'smooth'})}else{window.__q=txt;window.__go('contacto')}}
-var cs={cat:-1,brand:''};
-function card(it){return '<button class="cp" data-i="'+CI.indexOf(it)+'"><img src="'+it.img+'" alt=""><small>'+esc(it.brand)+'</small><b>'+esc(it.name)+'</b><span>Agregar o cotizar +</span></button>'}
-function paintCat(){
- var l=CI.filter(function(x){return (cs.cat<0||x.cat===cs.cat)&&(!cs.brand||x.brand===cs.brand)});
- var c=cs.cat>=0?CT[cs.cat]:null;
- setHead('<a href="#/productos">Productos</a> / '+(c?'<a data-all>Catálogo</a> / '+esc(c.n):'Catálogo'),c?c.n:'Catálogo',c?c.d:'Explora nuestras líneas de productos y pide tu cotización.');
- var h='<div class="chips"><button class="chip'+(cs.cat<0?' on':'')+'" data-c="-1">Todo</button>'+CT.map(function(x,i){return '<button class="chip'+(cs.cat===i?' on':'')+'" data-c="'+i+'">'+esc(x.n)+'</button>'}).join('')+'</div>';
- h+='<div class="chips sm"><button class="chip'+(!cs.brand?' on':'')+'" data-b="">Todas las marcas</button>'+BR.map(function(b){return '<button class="chip'+(cs.brand===b?' on':'')+'" data-b="'+esc(b)+'">'+esc(b)+'</button>'}).join('')+'</div>';
- if(c)h+='<div class="cbanner"><img src="'+c.img+'" alt=""><div><h3>'+esc(c.n)+'</h3><p>'+esc(c.d)+'</p></div></div>';
- h+='<div class="cinfo"><span>'+l.length+' línea'+(l.length===1?'':'s')+' de producto</span><button class="btn o" id="cqa">Cotizar '+(c?'esta categoría':'varios productos')+'</button></div>';
- h+='<div class="cgrid">'+(l.length?l.map(card).join(''):'<div class="cnone">No hay productos con ese filtro. Prueba otra marca o <a style="color:#00808a;font-weight:600;cursor:pointer" data-b="">quita el filtro</a>.</div>')+'</div>';
- $('#b-catalog').innerHTML=h;
+
+var CD = [
+    'Controladores para automatizar máquinas y procesos industriales.',
+    'Control de velocidad y movimiento preciso para motores y ejes.',
+    'Pantallas de operador para monitorear y controlar tus procesos.',
+    'Contactores, protecciones y componentes para tableros eléctricos.',
+    'Detección y protección para máquinas y personas.',
+    'Motores y reductores para transmisión de potencia.',
+    'Módulos, fuentes, comunicación y accesorios para tu sistema de control.'
+];
+
+var BR = [
+    'Allen-Bradley',
+    'Siemens',
+    'Schneider Electric',
+    'Mitsubishi Electric',
+    'Delta'
+];
+
+var V = 'Varias marcas';
+
+/* Categorías existentes */
+var CT = [].slice.call(
+    document.querySelectorAll('#b-cats .cat')
+).map(function(el, i) {
+    return {
+        n: el.querySelector('b').textContent,
+        img: el.querySelector('img').src,
+        d: CD[i]
+    };
+});
+
+/*
+ * Productos del catálogo.
+ * Cada producto tiene su propia ruta de imagen.
+ *
+ * Las rutas suponen que las carpetas están
+ * al mismo nivel que el archivo HTML.
+ */
+
+var CPD = [
+
+    /* 0. PLCs y controladores */
+    [0, 'Allen-Bradley', 'ControlLogix', 'PLCsGF/PLC1.png'],
+    [0, 'Allen-Bradley', 'CompactLogix', 'PLCsGF/PLC2.png'],
+    [0, 'Allen-Bradley', 'Micro800', 'PLCsGF/PLC3.png'],
+    [0, 'Siemens', 'SIMATIC S7-1200', 'PLCsGF/PLC4.png'],
+    [0, 'Siemens', 'SIMATIC S7-1500', 'PLCsGF/PLC5.png'],
+    [0, 'Schneider Electric', 'Modicon M241', 'PLCsGF/PLC6.png'],
+    [0, 'Mitsubishi Electric', 'MELSEC iQ-F', 'PLCsGF/PLC7.png'],
+    [0, 'Delta', 'Serie DVP', 'PLCsGF/PLC8.png'],
+
+    /* 1. Variadores y servos */
+    [1, 'Allen-Bradley', 'PowerFlex 525', 'VariadorGF/V1GF.png'],
+    [1, 'Allen-Bradley', 'PowerFlex 755', 'VariadorGF/V2GF.png'],
+    [1, 'Allen-Bradley', 'Kinetix', 'VariadorGF/V3GF.png'],
+    [1, 'Siemens', 'SINAMICS V20', 'VariadorGF/V4GF.png'],
+    [1, 'Siemens', 'SINAMICS G120', 'VariadorGF/V5GF.png'],
+    [1, 'Schneider Electric', 'Altivar', 'VariadorGF/V6GF.png'],
+    [1, 'Mitsubishi Electric', 'MELSERVO', 'VariadorGF/V7GF.png'],
+    [1, 'Delta', 'Serie VFD', 'VariadorGF/V8GF.png'],
+    [1, 'Delta', 'ASDA-A2', 'VariadorGF/V8GF.png'],
+
+    /* 2. HMI y PanelView */
+    [2, 'Allen-Bradley', 'PanelView Plus 7', 'HMIGF/HMI1.png'],
+    [2, 'Allen-Bradley', 'PanelView 800', 'HMIGF/HMI2.png'],
+    [2, 'Siemens', 'SIMATIC HMI Comfort Panels', 'HMIGF/HMI3.png'],
+    [2, 'Schneider Electric', 'Magelis', 'HMIGF/HMI4.png'],
+    [2, 'Mitsubishi Electric', 'GOT2000', 'HMIGF/HMI5.png'],
+    [2, 'Delta', 'Serie DOP', 'HMIGF/HMI6.png'],
+
+    /* 3. Componentes eléctricos */
+    [3, 'Schneider Electric', 'Contactores TeSys', 'COMP.%20ELECTRICOS/CONTAC1.png'],
+    [3, 'Siemens', 'Contactores SIRIUS', 'COMP.%20ELECTRICOS/CONTAC2.png'],
+    [3, 'Allen-Bradley', 'Contactores Serie 100-C', 'COMP.%20ELECTRICOS/CONTAC3.png'],
+    [3, 'Mitsubishi Electric', 'Contactores Serie MS-T', 'COMP.%20ELECTRICOS/CONTAC4.png'],
+    [3, V, 'Guardamotores', 'COMP.%20ELECTRICOS/CONTAC5.png'],
+    [3, V, 'Relés de control', 'COMP.%20ELECTRICOS/CONTAC6.png'],
+    [3, V, 'Interruptores automáticos', 'COMP.%20ELECTRICOS/CONTAC7.png'],
+
+    /* 4. Sensores y seguridad */
+    [4, V, 'Sensores inductivos', 'SENSORES/SENSOR1.png'],
+    [4, V, 'Sensores fotoeléctricos', 'SENSORES/SENSOR2.png'],
+    [4, V, 'Cortinas de luz de seguridad', 'SENSORES/SENSOR3.png'],
+    [4, 'Allen-Bradley', 'Relés de seguridad Guardmaster', 'SENSORES/SENSOR4.png'],
+    [4, V, 'Paros de emergencia', 'SENSORES/SENSOR5.png'],
+    [4, V, 'Finales de carrera', 'SENSORES/SENSOR6.png'],
+
+    /* 5. Motores y reductores */
+    [5, V, 'Motores trifásicos', 'MOTORES/MOTOR1.png'],
+    [5, V, 'Motorreductores', 'MOTORES/MOTOR2.png'],
+    [5, V, 'Reductores de velocidad', 'MOTORES/MOTOR3.png'],
+    [5, 'Siemens', 'Motores SIMOTICS', 'MOTORES/MOTOR4.png'],
+    [5, V, 'Servomotores', 'MOTORES/MOTOR5.png'],
+
+    /* 6. Accesorios y comunicación */
+    [6, V, 'Módulos de entradas y salidas'],
+    [6, V, 'Fuentes de alimentación'],
+    [6, V, 'Switches industriales Ethernet'],
+    [6, V, 'Gateways y comunicación industrial'],
+    [6, V, 'Relés temporizadores'],
+    [6, V, 'Borneras y accesorios']
+];
+
+
+/*
+ * Convierte las rutas relativas en rutas completas.
+ * Los productos con imagen asignada utilizan su archivo.
+ * Los productos sin imagen asignada conservan la imagen
+ * de su categoría.
+ */
+
+var CI = CPD.map(function(r) {
+
+    var c = CT[r[0]];
+    var nm = r[1] === V ? r[2] : r[1] + ' ' + r[2];
+
+    var rutaImagen = r[3]
+        ? new URL(r[3], document.baseURI).href
+        : c.img;
+
+    var it = {
+        id: 'k' + slug(nm),
+        type: 'Producto',
+        name: nm,
+        img: rutaImagen,
+        cat: r[0],
+        brand: r[1],
+        desc: c.d,
+        tag: r[1] + ' · ' + c.n,
+        kw: norm(
+            nm + ' ' +
+            r[1] + ' ' +
+            c.n + ' ' +
+            CK[r[0]]
+        )
+    };
+
+    items.push(it);
+
+    return it;
+});
+
+
+/* Productos destacados existentes */
+var FM = [0, 1, 2, 1];
+
+items.filter(function(x) {
+    return x.el;
+}).forEach(function(x, i) {
+    x.cat = FM[i];
+    x.desc = CD[FM[i]];
+    x.tag = 'Producto destacado';
+});
+
+items.forEach(function(x) {
+    if (/^c\d+$/.test(x.id)) {
+        x.cidx = +x.id.slice(1);
+    }
+});
+
+var ii = 0;
+
+items.forEach(function(x) {
+    if (x.type === 'Industria') {
+        x.ind = ii++;
+    }
+});
+
+
+/* Enlace para ver la categoría del producto */
+window.__sheetx = function(it) {
+
+    var sl = $('#sl');
+
+    if (it.cat !== undefined && CT[it.cat]) {
+        sl.style.display = 'inline-block';
+        sl.textContent = 'Ver más en ' + CT[it.cat].n + ' →';
+    } else {
+        sl.style.display = 'none';
+    }
+};
+
+$('#sl').onclick = function() {
+    var c = cur.cat;
+    closeAll();
+    openCategory(c);
+};
+
+
+/* Encabezado de las secciones */
+function setHead(crumb, title, sub) {
+    $('#hc').innerHTML = crumb;
+    $('#ht').textContent = title;
+    $('#hp').textContent = sub;
+
+    document.title = title + ' | Grupo Faraday';
+}
+
+function onStage(id) {
+    return document.getElementById(id).parentNode === $('#stage');
+}
+
+function quoteTxt(txt) {
+    closeAll();
+
+    if (onStage('b-contact')) {
+        fill(txt);
+        $('#b-contact').scrollIntoView({
+            behavior: 'smooth'
+        });
+    } else {
+        window.__q = txt;
+        window.__go('contacto');
+    }
+}
+
+
+/* Filtros del catálogo */
+var cs = {
+    cat: -1,
+    brand: ''
+};
+
+
+/* Tarjetas de productos */
+function card(it) {
+
+    return '<button class="cp" data-i="' + CI.indexOf(it) + '">' +
+        '<img src="' + it.img + '" alt="' + esc(it.name) + '">' +
+        '<small>' + esc(it.brand) + '</small>' +
+        '<b>' + esc(it.name) + '</b>' +
+        '<span>Agregar o cotizar +</span>' +
+        '</button>';
+}
+
+
+/* Mostrar el catálogo */
+function paintCat() {
+
+    var l = CI.filter(function(x) {
+        return (cs.cat < 0 || x.cat === cs.cat) &&
+            (!cs.brand || x.brand === cs.brand);
+    });
+
+    var c = cs.cat >= 0 ? CT[cs.cat] : null;
+
+    setHead(
+        '<a href="#/productos">Productos</a> / ' +
+        (c
+            ? '<a data-all>Catálogo</a> / ' + esc(c.n)
+            : 'Catálogo'
+        ),
+        c ? c.n : 'Catálogo',
+        c ? c.d : 'Explora nuestras líneas de productos y pide tu cotización.'
+    );
+
+    var h = '<div class="chips">' +
+        '<button class="chip' + (cs.cat < 0 ? ' on' : '') +
+        '" data-c="-1">Todo</button>' +
+
+        CT.map(function(x, i) {
+            return '<button class="chip' +
+                (cs.cat === i ? ' on' : '') +
+                '" data-c="' + i + '">' +
+                esc(x.n) +
+                '</button>';
+        }).join('') +
+
+        '</div>';
+
+    h += '<div class="chips sm">' +
+        '<button class="chip' + (!cs.brand ? ' on' : '') +
+        '" data-b="">Todas las marcas</button>' +
+
+        BR.map(function(b) {
+            return '<button class="chip' +
+                (cs.brand === b ? ' on' : '') +
+                '" data-b="' + esc(b) + '">' +
+                esc(b) +
+                '</button>';
+        }).join('') +
+
+        '</div>';
+
+    if (c) {
+        h += '<div class="cbanner">' +
+            '<img src="' + c.img + '" alt="">' +
+            '<div>' +
+            '<h3>' + esc(c.n) + '</h3>' +
+            '<p>' + esc(c.d) + '</p>' +
+            '</div>' +
+            '</div>';
+    }
+
+    h += '<div class="cinfo">' +
+        '<span>' + l.length + ' línea' +
+        (l.length === 1 ? '' : 's') +
+        ' de producto</span>' +
+        '<button class="btn o" id="cqa">Cotizar ' +
+        (c ? 'esta categoría' : 'varios productos') +
+        '</button>' +
+        '</div>';
+
+    h += '<div class="cgrid">' +
+        (l.length
+            ? l.map(card).join('')
+            : '<div class="cnone">No hay productos con ese filtro. ' +
+              'Prueba otra marca o ' +
+              '<a style="color:#00808a;font-weight:600;cursor:pointer" ' +
+              'data-b="">quita el filtro</a>.</div>'
+        ) +
+        '</div>';
+
+    $('#b-catalog').innerHTML = h;
 }
 function buildCatalog(){cs.cat=window.__cat===undefined?-1:window.__cat;cs.brand='';window.__cat=undefined;paintCat()}
 $('#b-catalog').addEventListener('click',function(e){var t=e.target,x;
