@@ -795,16 +795,30 @@ var BR = [
 var V = 'Varias marcas';
 
 /* Categorías existentes */
-var CT = [].slice.call(
-    document.querySelectorAll('#b-cats .cat')
-).map(function(el, i) {
+var CT=[].slice.call(document.querySelectorAll('#b-cats .cat')).map(function(el,i){
     return {
-        n: el.querySelector('b').textContent,
-        img: el.querySelector('img').src,
-        d: CD[i]
+        n:el.querySelector('b').textContent,
+        img:el.querySelector('img').src,
+        d:CD[i]
     };
 });
 
+/* Imágenes de portada de las categorías */
+var PORTADAS = [
+    'PLCsGF/PLC1.png',
+    'VariadorGF/V1GF.png',
+    'HMIGF/HMI1.png',
+    'COMP.%20ELECTRICOS/CONTAC1.png',
+    'SENSORES/SENSOR1.png',
+    'MOTORES/MOTOR1.png',
+    ''
+];
+
+CT.forEach(function(c,i){
+    c.cover = PORTADAS[i]
+        ? new URL(PORTADAS[i], document.baseURI).href
+        : c.img;
+});
 /*
  * Productos del catálogo.
  * Cada producto tiene su propia ruta de imagen.
@@ -1058,14 +1072,7 @@ function paintCat() {
 
         '</div>';
 
-    if (c) {
-        h += '<div class="cbanner">' +
-            '<img src="' + c.img + '" alt="">' +
-            '<div>' +
-            '<h3>' + esc(c.n) + '</h3>' +
-            '<p>' + esc(c.d) + '</p>' +
-            '</div>' +
-            '</div>';
+if(c)h+='<div class="cbanner"><img src="'+c.cover+'" alt="'+esc(c.n)+'"><div><h3>'+esc(c.n)+'</h3><p>'+esc(c.d)+'</p></div></div>';
     }
 
     h += '<div class="cinfo">' +
