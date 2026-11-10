@@ -685,7 +685,9 @@ function key(){var k=(location.hash.replace(/^#\/?/,'')||'inicio').split('?')[0]
 function render(k){
  while(stage.firstChild)pool.appendChild(stage.firstChild);
  if(HD[k]){document.getElementById('hc').textContent=HD[k][0];document.getElementById('ht').textContent=HD[k][0];document.getElementById('hp').textContent=HD[k][1]}
- R[k].forEach(function(b,i){var el=document.getElementById('b-'+b);stage.appendChild(el);if(b!=='hero'&&!rm){el.style.animation='rise .7s '+(i*.09)+'s cubic-bezier(.2,.7,.2,1) both'}else el.style.animation=''});
+ R[k].forEach(function(b,i){var el=document.getElementById('b-'+b);
+if(!el){console.error('Falta el bloque:', 'b-'+b);return}
+stage.appendChild(el);if(b!=='hero'&&!rm){el.style.animation='rise .7s '+(i*.09)+'s cubic-bezier(.2,.7,.2,1) both'}else el.style.animation=''});
  links.forEach(function(a){a.classList.toggle('on',a.getAttribute('href')==='#/'+(k==='catalogo'?'productos':k==='industria'?'soluciones':k))});
  document.title=(k==='inicio'?'Grupo Faraday | Automatización Industrial':HD[k][0]+' | Grupo Faraday');
  scrollTo(0,0);dispatchEvent(new Event('resize'));cur=k;if(window.__after)window.__after(k);
