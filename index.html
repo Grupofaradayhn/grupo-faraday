@@ -741,7 +741,19 @@ $('#dl').addEventListener('click',function(e){var t=e.target,i;
  else if((i=t.getAttribute('data-d'))!==null){if(--cart[+i].qty<1)cart.splice(+i,1)}
  else if((i=t.getAttribute('data-u'))!==null)cart[+i].qty++;
  else return;save();renderCart()});
-function addCart(it,q){var f=cart.filter(function(x){return x.id===it.id})[0];if(f)f.qty+=q;else cart.push({id:it.id,name:it.name,img:it.img,qty:q});save();renderCart(true)}
+function quote(list){
+closeAll();
+
+var txt='Hola, quiero solicitar una cotización de los siguientes productos:\n\n'
++lines(list)
++'\n\nQuedo atento a su cotización.\nSaludos.';
+
+var subject='Solicitud de cotización - Grupo Faraday';
+
+window.location.href='mailto:ventas@grupofaraday.com?subject='
++encodeURIComponent(subject)
++'&body='+encodeURIComponent(txt);
+}
 /* cotizar */
 function fill(txt){var ta=document.querySelector('#b-contact textarea'),sel=document.querySelector('#b-contact select');if(!ta)return;ta.value=txt;if(sel)sel.selectedIndex=1;ta.style.height='auto';toast('Mensaje listo: completa tus datos y envía')}
 window.__after=function(k){if(k==='contacto'&&window.__q){var q=window.__q;window.__q=null;fill(q)}};
