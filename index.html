@@ -556,6 +556,66 @@ body.lock{overflow:hidden}
 @keyframes wapulse{0%{transform:scale(1);opacity:.8}70%,100%{transform:scale(1.55);opacity:0}}
 .btn.wa2{background:#fff;border-color:#006066;color:#006066}.btn.wa2:hover{background:#006066;color:#fff}
 @media(prefers-reduced-motion:reduce){.wa:after{animation:none}}
+    /* ===== DISTRIBUCION SOLUCIONES GRUPO FARADAY ===== */
+
+#b-sol .sol {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    align-items: center;
+    width: 100%;
+    min-height: 280px;
+    gap: 15px;
+}
+
+#b-sol .sol .tx {
+    padding: 30px 35px;
+}
+
+#b-sol .sl {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 12px 18px;
+    margin: 20px 25px 20px 10px;
+    padding: 20px;
+    width: auto;
+    box-sizing: border-box;
+}
+
+#b-sol .sl div {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 5px;
+    border: none !important;
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+#b-sol .sl .ring {
+    flex-shrink: 0;
+}
+
+/* ===== ADAPTACION A CELULARES ===== */
+
+@media (max-width: 1000px) {
+    #b-sol .sol {
+        grid-template-columns: 1fr !important;
+    }
+
+    #b-sol .sol .tx {
+        padding: 25px 22px;
+    }
+
+    #b-sol .sl {
+        margin: 5px 18px 22px;
+    }
+}
+
+@media (max-width: 480px) {
+    #b-sol .sl {
+        grid-template-columns: 1fr !important;
+    }
+}
 </style>
 </head>
 <body>
