@@ -750,9 +750,12 @@ var txt='Hola, quiero solicitar una cotización de los siguientes productos:\n\n
 
 var subject='Solicitud de cotización - Grupo Faraday';
 
-window.location.href='mailto:ventas@grupofaradayhn.com?subject='
-+encodeURIComponent(subject)
+var url='https://mail.google.com/mail/?view=cm&fs=1'
++'&to='+encodeURIComponent('ventas@grupafaradayhn.com')
++'&su='+encodeURIComponent(subject)
 +'&body='+encodeURIComponent(txt);
+
+window.open(url,'_blank');
 }
 /* cotizar */
 function fill(txt){var ta=document.querySelector('#b-contact textarea'),sel=document.querySelector('#b-contact select');if(!ta)return;ta.value=txt;if(sel)sel.selectedIndex=1;ta.style.height='auto';toast('Mensaje listo: completa tus datos y envía')}
