@@ -974,7 +974,8 @@ q.addEventListener('input',search);q.addEventListener('focus',function(){if(q.va
 q.addEventListener('keydown',function(e){if(e.key==='ArrowDown'&&list.length){e.preventDefault();hl=(hl+1)%list.length;paint()}else if(e.key==='ArrowUp'&&list.length){e.preventDefault();hl=(hl-1+list.length)%list.length;paint()}else if(e.key==='Enter'&&list[hl]){e.preventDefault();pick(list[hl])}});
 res.addEventListener('click',function(e){var el=e.target.closest('.sit');if(el)pick(list[+el.getAttribute('data-i')])});
 document.addEventListener('click',function(e){if(!e.target.closest('.sbox')&&!e.target.closest('#sbtn'))closeRes()});
-$('#sbtn').onclick=function(){var h=document.querySelector('header');h.classList.toggle('so');if(h.classList.contains('so'))q.focus();else closeRes()};
+var sb=$('#sbtn');
+if(sb) sb.onclick=function(){var h=document.querySelector('header');h.classList.toggle('so');if(h.classList.contains('so'))q.focus();else closeRes()};
 
 /* ---- catálogo ---- */
 
